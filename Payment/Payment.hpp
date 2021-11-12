@@ -1,4 +1,6 @@
 ﻿#pragma once
+#pragma execution_character_set( "utf-8" )
+
 #include <string>
 
 using namespace std;
@@ -62,5 +64,13 @@ public:
 	//Quality of life functions
 	void incWorkingDays();
 	string getFullName();
+	void reCalc();
+
+	//Operator overloading
+	//friend для прямого доступа к полям
+	friend ostream& operator<< (ostream& out, const Payment& p);
+	friend istream& operator>> (istream& in, Payment& p);
+	friend bool operator== (const Payment& p1, const Payment& p2);
+	friend bool operator!= (const Payment& p1, const Payment& p2);
 };
 

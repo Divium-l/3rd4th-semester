@@ -1,6 +1,11 @@
+﻿#pragma execution_character_set( "utf-8" )
+
 #include "Payment.hpp"
+#include <iostream>
 
 using namespace std;
+
+
 
 //Constructors
 Payment::Payment()
@@ -34,9 +39,7 @@ Payment::Payment(string name, string surname, string patronymic, int startYear, 
 	this->premiumPercent = premiumPercent;
 	this->incomeTax = incomeTax;
 	
-	salary = -1;
-	withhold = -1;
-	payroll = -1;
+	reCalc();
 }
 
 Payment::Payment(Payment& p)
@@ -146,4 +149,68 @@ string Payment::getFullName()
 	return name + " " + surname + " " + patronymic;
 }
 
+void Payment::reCalc()
+{
+	Payment::calcSalary();
+	Payment::calcWithhold();
+	Payment::calcPayroll();
+}
+
 //Operator overloading
+ostream &operator<< (ostream &out, const Payment &p) 
+{
+	out << "Имя: " << p.name << endl;
+	out << "Фамилия: " << p.surname << endl;
+	out << "Отчество: " << p.patronymic << endl;
+
+	out << "Год начала работы: " << p.startYear << "г." << endl;
+	out << "Число рабочих дней: " << p.workingDays << endl;
+	out << "Отрабодано дней: " << p.workedDays << endl;
+	out << "Оклад: " << p.dailySalary << "₽" << endl;
+	out << "Премия: " << p.premiumPercent << "%" << endl;
+	out << "Налог: " << p.incomeTax << "%" << endl;
+
+	out << "Зарплата: " << p.salary << "₽" << endl;
+	out << "Удержание: " << p.withhold << "₽" << endl;
+	out << "Выплата: " << p.payroll << "₽" << endl;
+
+	return out;
+}
+
+istream &operator>> (istream &in, Payment &p)
+{
+	cout << "Имя: ";  in >> p.name;
+	cout << "Фамилия: ";  in >> p.surname;
+	cout << "Отчество: ";  in >> p.patronymic;
+
+	cout << "Год начала работы: ";  in >> p.startYear;
+	cout << "Число рабочих дней: ";  in >> p.workingDays;
+	cout << "Отрабодано дней: ";  in >> p.workedDays;
+	cout << "Оклад: ";  in >> p.dailySalary;
+	cout << "Премия: ";  in >> p.premiumPercent;
+	cout << "Налог: "; in >> p.incomeTax;
+
+	p.reCalc();
+	return in;
+}
+
+bool operator== (const Payment& p1, const Payment& p2)
+{
+	return
+		(
+			p1.name._Equal(p2.name)
+			&& p1.surname._Equal(p2.surname)
+			&& p1.patronymic._Equal(p2.patronymic)
+			&& p1.startYear == p2.startYear
+			&& p1.workingDays == p2.workingDays
+			&& p1.workedDays == p2.workedDays
+			&& p1.dailySalary == p2.dailySalary
+			&& p1.premiumPercent == p2.premiumPercent
+			&& p1.incomeTax == p2.incomeTax
+		);
+}
+
+bool operator!= (const Payment& p1, const Payment& p2)
+{
+	return !(p1 == p2);
+}
