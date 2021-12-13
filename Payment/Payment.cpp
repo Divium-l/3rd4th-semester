@@ -5,8 +5,6 @@
 
 using namespace std;
 
-
-
 //Constructors
 Payment::Payment()
 {
