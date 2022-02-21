@@ -9,11 +9,11 @@
 class TouristTripPrinter
 {
 private:
-	string COUNTRY_NAME = "Название страны";
-	string CITY_NAME = "Название города";
-	string DAYS_COUNT = "Количество дней";
-	string HOTEL_TYPE = "Тип отеля";
-	string TRIP_COST = "Стоимость поездки";
+	string COUNTRY_NAME = "Country name";
+	string CITY_NAME = "City name";
+	string DAYS_COUNT = "Number of days";
+	string HOTEL_TYPE = "Hotel type";
+	string TRIP_COST = "Cost  ";
 
 	string getHeader();
 	string getShortHeader();

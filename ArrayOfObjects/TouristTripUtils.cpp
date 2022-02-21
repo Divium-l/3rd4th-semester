@@ -25,3 +25,31 @@ TouristTrip* TouristTripUtils::sortByPrice(TouristTrip* trips, size_t size)
 
 	return sortedTrips;
 }
+
+size_t TouristTripUtils::getByCountrySize(string& country, TouristTrip* trips, size_t size)
+{
+    size_t newSize = 0;
+
+    for (size_t i = 0; i < size - 1; i++)
+        if (trips[i].getCountry()._Equal(country))
+            newSize++;
+
+    return newSize;
+}
+
+TouristTrip* TouristTripUtils::getByCountry(string& country, TouristTrip* trips, size_t size)
+{
+    size_t newSize = getByCountrySize(country, trips, size);
+    TouristTrip* cities = new TouristTrip[newSize];
+    size_t k = 0;
+
+    for (size_t i = 0; i < size - 1; i++)
+        if (trips[i].getCountry()._Equal(country)) 
+        {
+            cities[k] = trips[i];
+            k++;
+        }
+            
+
+    return cities;
+}

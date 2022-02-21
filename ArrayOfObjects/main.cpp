@@ -23,18 +23,19 @@ string getResult(const size_t selected, TouristTrip* trips);
 
 int main()
 {
-    setlocale(LC_ALL, "");
-    SetConsoleOutputCP(65001);
+    //setlocale(LC_ALL, "utf-8");
+    //SetConsoleOutputCP(65001);
+    //SetConsoleCP(65001);
 
     vector<string> options;
     options.push_back("Показать полную таблицу");     //0
-    options.push_back("Показать не полную таблицу");  //1
+    options.push_back("Отсортировать по стране");     //1
     options.push_back("Отсортировать по стоимости");  //2
     
     TouristTrip* trips = new TouristTrip[N];
-    trips[0] = TouristTrip("Россия", "Москва", 7, "4 star", 12999);
-    trips[1] = TouristTrip("Украина", "Киев", 4, "3 star", 9999);
-    trips[2] = TouristTrip("Австралия", "Сидней", 12, "5 star", 97999);
+    trips[0] = TouristTrip("Russia", "Moscow", 7, "4 star", 12999);
+    trips[1] = TouristTrip("Ukarin", "Kiev", 4, "3 star", 9999);
+    trips[2] = TouristTrip("Australia", "Sydney", 12, "5 star", 97999);
 
     displayMenu(options, trips);
 
@@ -135,7 +136,16 @@ string getResult(const size_t selected, TouristTrip* trips)
 
     case 1:
     {
-        buffer << printer.getShortTable(trips, N);
+        cout << u8"Страна: ";
+        string country;
+        cin >> country;
+
+        size_t newSize = utils.getByCountrySize(country, trips, N);
+        TouristTrip* cities = utils.getByCountry(country, trips, N);
+
+        buffer << printer.getShortTable(cities, newSize);
+
+        delete[] cities;
         break;
     }
 
