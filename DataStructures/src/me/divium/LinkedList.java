@@ -38,6 +38,10 @@ public class LinkedList<T> {
         this.size = 1;
     }
 
+    /**
+     * Всталяет объект в конец списка
+     * @param data Объект
+     */
     public void add(T data) {
         var currentNode = this.node;
 
@@ -48,7 +52,6 @@ public class LinkedList<T> {
         }
 
         //Добавление элемента в конец списка
-        //Поиск последней ноды
         while (currentNode.next != null)
             currentNode = currentNode.next;
 
@@ -56,34 +59,49 @@ public class LinkedList<T> {
         increaseSize();
     }
 
+    /**
+     * Вставляет объект на указываемый индекс. Нельзя вставить в конец списка
+     * @param data Вставляемый объект
+     * @param index Индекс
+     */
     public void insert(T data, int index) {
         validateIndex(index);
 
-        int currentIndex = 0;
-        Node currentNode = this.node;
-
-        while (currentIndex != index) {
-            currentNode = currentNode.next;
-            currentIndex++;
+        //Вставка в если в списке ничего нет
+        if (this.node.data == null) {
+            add(data);
+            return;
         }
+
+        //Вставка в начало списка
+        if (index == 0) {
+            Node movedNode = this.node;
+            this.node = new Node(data);
+            this.node.next = movedNode;
+            return;
+        }
+
+        Node currentNode = this.node;
+        for (int i = 0; i + 1 != index; i++)
+            currentNode = currentNode.next;
 
         Node nextNode = currentNode.next;
         currentNode.next = new Node(data);
         currentNode.next.next = nextNode;
-        size++;
+        increaseSize();
     }
 
-    public void delete(int index) {
-        deleteByIndexRealization(index);
+    public void remove(int index) {
+        removeByIndex(index);
     }
 
-    public void delete(T data) {
-        deleteByObjectRealization(data, false);
+    public void remove(T data) {
+        removeByObject(data);
     }
 
-    @Deprecated
-    public void deleteAll(T data) {
-        deleteByObjectRealization(data, true);
+    public void removeAll(T data) {
+        while (this.contains(data))
+            remove(data);
     }
 
     public boolean contains(T data) {
@@ -116,11 +134,11 @@ public class LinkedList<T> {
         return builder.toString();
     }
 
+//===============================================================================
+
     private void increaseSize() {
         this.size++;
     }
-
-//===============================================================================
 
     private void decreaseSize() {
         this.size--;
@@ -131,22 +149,22 @@ public class LinkedList<T> {
             throw new IllegalArgumentException("Index out of bounds");
     }
 
-    private void deleteFirstNode() {
+    private void removeFirstNode() {
         this.node = this.node.next;
         decreaseSize();
     }
 
-    private void deleteNextNode(Node currentNode) {
+    private void removeNextNode(Node currentNode) {
         var deleteNode = currentNode.next;
         currentNode.next = deleteNode.next;
         decreaseSize();
     }
 
-    private void deleteByIndexRealization(int index) {
+    private void removeByIndex(int index) {
         validateIndex(index);
 
         if (index == 0) {
-            deleteFirstNode();
+            removeFirstNode();
             return;
         }
 
@@ -158,20 +176,20 @@ public class LinkedList<T> {
             currentIndex++;
         }
 
-        deleteNextNode(currentNode);
+        removeNextNode(currentNode);
     }
 
-    private void deleteByObjectRealization(T data, boolean all) {
+    private void removeByObject(T data) {
         if (this.node.data.equals(data)) {
-            deleteFirstNode();
+            removeFirstNode();
+            return;
         }
 
         var currentNode = this.node;
-
         while (currentNode.next != null) {
             if (currentNode.next.data.equals(data)) {
-                deleteNextNode(currentNode);
-                if (!all) return;
+                removeNextNode(currentNode);
+                return;
             }
             currentNode = currentNode.next;
         }
