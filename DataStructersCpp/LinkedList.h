@@ -4,7 +4,7 @@
 #include <string>
 
 template<class T> class LinkedList {
-
+private:
 	/* @brief Контейнер для хранения данных*/
 	struct Node {
 
