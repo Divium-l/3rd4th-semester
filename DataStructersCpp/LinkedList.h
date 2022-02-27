@@ -1,141 +1,123 @@
 ﻿#pragma once
 
-#include "Person.h"
 #include <sstream>
+#include <string>
 
-class LinkedList {
+template<class T> class LinkedList {
 
+	/* @brief Контейнер для хранения данных*/
 	struct Node {
 
-		Person* data;
+		T* data;
 		Node* next;
 
-		Node() {
-			this->data = nullptr;
-			this->next = nullptr;
-		}
+		Node();
 
-		Node(Person* data) {
-			this->data = data;
-			this->next = nullptr;
-		}
+		Node(T* data);
+
+		~Node();
 	};
 
+	/* @brief Указатель на первый контейнер */
 	Node* node;
-	size_t size;
+	size_t listSize;
 
-	void increaseSize() {
-		size++;
-	}
+	void increaseSize();
 
-
-	void decreaseSize() {
-		size--;
-	}
-
-	void const validateIndex(const int index) {
-		if (index < 0 || index > size - 1)
-			throw new exception("Index out of bounds");
-	}
-
-public:
-	LinkedList() {
-		this->node = new Node();
-		this->size = 1;
-	}
-
-	void add(Person* data) {
-		Node* currentNode = this->node;
-
-		//Первичное добавление элемента в список
-		if (currentNode->data == nullptr) {
-			currentNode->data = data;
-			return;
-		}
-
-		//Добавление элемента в конец списка
-		//Поиск последней ноды
-		while (currentNode->next != nullptr)
-			currentNode = currentNode->next;
-
-		currentNode->next = new Node(data);
-		increaseSize();
-	}
-
-	void insert(Person* data, const int index) {
-		validateIndex(index);
-
-		int currentIndex = 0;
-		Node* currentNode = this->node;
-
-		while (currentIndex != index) {
-			currentNode = currentNode->next;
-			currentIndex++;
-		}
-
-		Node* nextNode = currentNode->next;
-		currentNode->next = new Node(data);
-		currentNode->next->next = nextNode;
-		increaseSize();
-	}
-
-	bool const contains(Person* data) {
-		Node* currentNode = this->node;
-
-		while (currentNode != nullptr) {
-			if (currentNode->data->equals(data))
-				return true;
-
-			currentNode = currentNode->next;
-		}
-
-		return false;
-	}
-
-	bool const contains(Person* data, bool (*lambda)(Person* object)) {
-		Node* currentNode = this->node;
-
-		while (currentNode != nullptr) {
-			if (lambda(currentNode->data))
-				return true;
-
-			currentNode = currentNode->next;
-		}
-
-		return false;
-	}
-
-	int const size() {
-		return size;
-	}
-
-	string toString() {
-		stringstream stream;
-		Node* currentNode = this->node;
-
-		while (currentNode != nullptr) {
-			stream << currentNode->data->toString() << " -> ";
-			currentNode = currentNode->next;
-		}
-
-		stream << "null";
-		return stream.str();
-	}
+	void decreaseSize();
 
 	/*
-	* @param string (*lambda)(Person* object) - Функция для преобразования объекта в строку
+	* @brief Проверка является ли индекс валидным
+	* @param index Индекс
+	* @exception out_of_range
 	*/
-	string toString(string (*lambda)(Person* object)) {
-		stringstream stream;
-		Node* currentNode = this->node;
+	void const validateIndex(const int index);
 
-		while (currentNode != nullptr) {
-			stream << lambda(currentNode->data) << "->";
-			currentNode = currentNode->next;
-		}
+	void deleteFirstNode();
 
-		stream << "null";
-		return stream.str();
-	}
+	void deleteNextNode(Node* currentNode);
+
+public:
+	LinkedList();
+
+	~LinkedList();
+
+	/*
+	* @brief Добавляет элемент в конец списка
+	* @param data Добовляемый объект
+	*/
+	void add(T* data);
+
+	/*
+	* @brief Всталяет элемент на указанный индекс (нельзя добавить элмент в конец списка)
+	* @param data Всталяемый объект
+	* @param idnex Индекс
+	*/
+	void insert(T* data, const int index);
+
+	/*
+	* @brief Проверяет есть ли элемет в списке. Для проверки вызывает метод equals у объекта
+	* @param data Искомый объект
+	* @return True если есть
+	*/
+	bool const contains(T* data);
+
+	/*
+	* @brief Проверяет есть ли элемет в списке. Для проверки используется функция компоратор 
+	* @param data Искомый объект
+	* @param lambda Компоратор 
+	* @return True если есть
+	*/
+	bool const contains(T* data, bool (*lambda)(T* object1, T* object2));
+
+	/*
+	* @brief Удаляет элмент по индексу
+	* @param index Индекс
+	*/
+	void remove(const int index);
+
+	/*
+	* @brief Удаляет искомый элмент в списке. Для поиска элемента вызывается метод equals
+	* @param data Искомый объект
+	*/
+	void remove(T* data);
+
+	/*
+	* @brief Удаляет искомый элемет в списке. Для поиска используется функция компоратор 
+	* @param data Искомый объект
+	* @param lambda Компоратор 
+	*/
+	void remove(T* data, bool (*lambda)(T* object1, T* object2));
+
+	/*
+	* @brief Удаляет все искомые элементы в списке. Для поиска вызывается метод equals
+	* @param data Искомый объект
+	*/
+	void removeAll(T* data);
+
+	/*
+	* @brief Удаляет все искомые элементы. Для проверки используется функция компоратор 
+	* @param data Искомый объект
+	* @param lambda Компоратор 
+	* @return True если есть
+	*/
+	void removeAll(T* data, bool (*lambda)(T* object1, T* object2));
+
+	/*
+	* @return Размер списка
+	*/
+	size_t const size();
+
+	/*
+	* @brief Конвертирует список в строку. Для конвертации объектов используется метод toString
+	* @return Строка вида {element1} -> {element2} -> ... -> null
+	*/
+	std::string const toString();
+
+	/*
+	* @brief Конвертирует список в строку
+	* @param lambda Функция реализации преобразования объекта в строку
+	* @return Строка заданного вида
+	*/
+	std::string const toString(std::string(*lambda)(T* object));
 };
-
