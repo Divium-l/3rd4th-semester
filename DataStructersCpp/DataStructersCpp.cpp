@@ -85,6 +85,7 @@ int main()
     linkedList->add(p1);
     linkedList->add(p2);
     cout << linkedList->toString() << endl;
+    //cout << linkedList << endl;
     cout << linkedList->toString([](Person* p) -> string {return p->name; }) << endl;
     cout << linkedList->contains(new Person("Bob", 19)) << endl;
     cout << linkedList->contains(new Person("Bob", 18)) << endl;

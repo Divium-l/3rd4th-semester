@@ -2,10 +2,11 @@
 
 #include <string>
 #include <sstream>
+#include "IComparable.h"
 
 using namespace std;
 
-class Person
+class Person : public IComparable<Person>
 {
 public:
 	string name;
@@ -29,6 +30,10 @@ public:
 
 	bool const equals(Person* p) {
 		return this->age == p->age && this->name._Equal(p->name);
+	}
+
+	const int compareTo(Person* object) override {
+		return this->age - object->age;
 	}
 };
 

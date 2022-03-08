@@ -1,6 +1,6 @@
 package me.divium;
 
-public class Tree<T extends Comparable> {
+public class BinaryTree<T extends Comparable<T>> {
 
     private class Node {
         public Node left;
@@ -50,6 +50,9 @@ public class Tree<T extends Comparable> {
            return;
         }
 
+        if (contains(value))
+            return;
+
         Node currentNode = head;
 
         while (currentNode != null) {
@@ -72,7 +75,6 @@ public class Tree<T extends Comparable> {
                     currentNode = currentNode.right;
             }
         }
-
     }
 
     //работает
@@ -106,5 +108,24 @@ public class Tree<T extends Comparable> {
         if (node.right != null) {
             toStringRecursion(node.right);
         }
+    }
+
+    public String ToString() {
+        if (head == null)
+            return "null";
+
+        Node currentNode = head;
+        nodeToString(head);
+        return builder.toString();
+    }
+
+    public void nodeToString(Node node) {
+        if (node.left != null)
+            nodeToString(node.left);
+
+        if (node.right != null)
+            nodeToString(node.right);
+
+        builder.append(node.value);
     }
 }

@@ -25,5 +25,15 @@ public class Main {
         LinkedList<Person> myList= new LinkedList<>() {{add(new Person()); add(new Person());}};
         System.out.println(javaList);
         System.out.println(myList);
+
+        var tree = new BinaryTree<Integer>();
+        tree.add(5);
+        tree.add(9);
+        tree.add(7);
+        tree.add(3);
+        tree.add(0);
+        tree.add(1);
+        tree.add(4);
+        System.out.println(tree.ToString());
     }
 }

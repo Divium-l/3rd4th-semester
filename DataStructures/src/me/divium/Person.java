@@ -1,6 +1,6 @@
 package me.divium;
 
-public class Person {
+public class Person implements Comparable {
     private static int count = -1;
     public int id;
     public int age;
@@ -36,5 +36,10 @@ public class Person {
 
     private void incrementCount() {
         this.count++;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.age - ((Person) o).age;
     }
 }
