@@ -1,13 +1,28 @@
 package me.divium;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        var list = new LinkedList<Person>();
+        //testLinkedList();
+        var tree = new BinaryTree<Person>();
+        tree.add(new Person(65,"Jeff"));
+        tree.add(new Person(91,"Bob"));
+        tree.add(new Person(72,"Mike"));
+        tree.add(new Person(20,"Dave"));
+//        tree.add(new Person(-20,"Josh"));
+//        tree.add(new Person(0,"Help"));
+//        tree.add(new Person(3,"Richard"));
+        System.out.println(tree);
+        tree.delete(new Person(91, "d"));
+        System.out.println(tree);
+    }
 
+    private static void testLinkedList() {
+        var list = new LinkedList<Person>();
         list.insert(new Person(), 0);
         list.add(new Person(18, "Jhon"));
         list.add(new Person(56, "Jane"));
@@ -25,15 +40,5 @@ public class Main {
         LinkedList<Person> myList= new LinkedList<>() {{add(new Person()); add(new Person());}};
         System.out.println(javaList);
         System.out.println(myList);
-
-        var tree = new BinaryTree<Integer>();
-        tree.add(5);
-        tree.add(9);
-        tree.add(7);
-        tree.add(3);
-        tree.add(0);
-        tree.add(1);
-        tree.add(4);
-        System.out.println(tree.ToString());
     }
 }

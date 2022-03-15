@@ -1,6 +1,8 @@
 package me.divium;
 
-public class Person implements Comparable {
+import java.util.Comparator;
+
+public class Person implements Comparable<Person>, Comparator<Person> {
     private static int count = -1;
     public int id;
     public int age;
@@ -38,8 +40,14 @@ public class Person implements Comparable {
         this.count++;
     }
 
+
+    @Override @Deprecated
+    public int compareTo(Person o) {
+        return this.age - o.age;
+    }
+
     @Override
-    public int compareTo(Object o) {
-        return this.age - ((Person) o).age;
+    public int compare(Person p1, Person p2) {
+        return p1.age - p2.age;
     }
 }
