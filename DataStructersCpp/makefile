@@ -17,6 +17,6 @@ DataStructersCpp.o: DataStructersCpp.cpp
 	$(CC) $(CFLAGS) -c DataStructersCpp.cpp
 
 clean:
-	rm *.o rm *.gch
+	rm *.o rm *.gch rm output
 
 
