@@ -97,10 +97,10 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
     }
 
     public void _delete(T value, Comparator<T> comparator) {
-        Node node = _getNode(value, comparator);
+        Node removableNode = _getNode(value, comparator);
         Node parent = _getParentNode(value, comparator);
 
-        if (node == null)
+        if (removableNode == null)
             return;
 
         if (parent == null) {
@@ -108,27 +108,40 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
             return;
         }
 
-        if (node.left == null && node.right == null) {
-            if (parent.left == node)
+        if (removableNode.left == null && removableNode.right == null) {
+            if (parent.left == removableNode)
                 parent.left = null;
             else
                 parent.right = null;
         }
-        else if (node.right == null) {
-            if (parent.left == node)
-                parent.left = node.left;
+        else if (removableNode.right == null) {
+            if (parent.left == removableNode)
+                parent.left = removableNode.left;
             else
-                parent.right = node.left;
+                parent.right = removableNode.left;
         }
-        else if (node.left == null) {
-            if (parent.left == node)
-                parent.left = node.right;
+        else if (removableNode.left == null) {
+            if (parent.left == removableNode)
+                parent.left = removableNode.right;
             else
-                parent.right = node.right;
+                parent.right = removableNode.right;
         }
         else {
             //удаление если есть и левый и правый
-            return;
+            Node min = _findMin(removableNode.right);
+            Node minParent = _getParentNode(min.value, value);
+            minParent.left = null;
+
+            if (parent.left == removableNode) {
+                min.left = removableNode.left;
+                min.right = removableNode.right;
+                parent.left = min;
+            }
+            else {
+                min.left = removableNode.left;
+                min.right = removableNode.right;
+                parent.right = min;
+            }
         }
     }
 
@@ -197,9 +210,10 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
      */
     private Node _findMin(Node node) {
         if (node.left != null)
-            node = _findMin(node.left);
-
-       return node;
+            _findMin(node.left);
+        else
+            return node;
+        return node;
     }
 
     @Override

@@ -10,15 +10,15 @@ public class Main {
         //testLinkedList();
         var tree = new BinaryTree<Person>();
         tree.add(new Person(65,"Jeff"));
-        tree.add(new Person(91,"Bob"));
-        tree.add(new Person(72,"Mike"));
-        tree.add(new Person(71,"Mike"));
-        tree.add(new Person(20,"Dave"));
-//        tree.add(new Person(-20,"Josh"));
+        tree.add(new Person(27,"Bob"));
+        tree.add(new Person(21,"Mike"));
+        tree.add(new Person(29,"Mike"));
+        tree.add(new Person(30,"Dave"));
+        tree.add(new Person(24,"Josh"));
 //        tree.add(new Person(0,"Help"));
 //        tree.add(new Person(3,"Richard"));
         System.out.println(tree);
-        tree.remove(new Person(65, "d"));
+        tree.remove(new Person(27, "d"));
         System.out.println(tree);
     }
 
