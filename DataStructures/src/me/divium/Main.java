@@ -12,12 +12,13 @@ public class Main {
         tree.add(new Person(65,"Jeff"));
         tree.add(new Person(91,"Bob"));
         tree.add(new Person(72,"Mike"));
+        tree.add(new Person(71,"Mike"));
         tree.add(new Person(20,"Dave"));
 //        tree.add(new Person(-20,"Josh"));
 //        tree.add(new Person(0,"Help"));
 //        tree.add(new Person(3,"Richard"));
         System.out.println(tree);
-        tree.delete(new Person(91, "d"));
+        tree.remove(new Person(65, "d"));
         System.out.println(tree);
     }
 

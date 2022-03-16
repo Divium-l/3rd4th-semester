@@ -88,9 +88,17 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
         return _getNode(value, comparator) != null;
     }
 
-    public void delete(T value) {
-        Node node = _getNode(value, value);
-        Node parent = _getParentNode(value, value);
+    public void remove(T value) {
+        _delete(value, value::compare);
+    }
+
+    public void remove(T value, Comparator<T> comparator) {
+        _delete(value, comparator);
+    }
+
+    public void _delete(T value, Comparator<T> comparator) {
+        Node node = _getNode(value, comparator);
+        Node parent = _getParentNode(value, comparator);
 
         if (node == null)
             return;
@@ -125,8 +133,22 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
     }
 
     private void _removeHead() {
-        //не реализовано
-        System.out.println("removing head");
+        Node node;
+        if (this.head.right != null) {
+            node = _findMin(this.head.right);
+            Node parent = _getParentNode(node.value, node.value::compare);
+            node.left = this.head.left;
+            node.right = this.head.right;
+
+            if (parent.left == node)
+                parent.left = null;
+            else
+                parent.right = null;
+        }
+        else {
+            node = this.head.left;
+        }
+        this.head = node;
     }
 
     /**
@@ -136,7 +158,10 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
      */
     private Node _getNode(T value, Comparator<T> comparator) {
         Node parent = _getParentNode(value, comparator);
-        if (parent == null)
+        if (comparator.compare(this.head.value, value) == 0) {
+            return this.head;
+        }
+        else if (parent == null)
             return null;
         return comparator.compare(parent.left.value, value) == 0 ? parent.left : parent.right;
     }
