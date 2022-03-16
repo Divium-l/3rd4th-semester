@@ -2,39 +2,19 @@
 
 #include "Person.h"
 
-typedef Person T;
 
-class BinaryTree {
+template<class T> class BinaryTree {
 private:
 	struct Node {
-
 		T* value;
 		Node* left;
 		Node* right;
 
-        Node() {
-            this->value = nullptr;
-            this->left = nullptr;
-            this->right = nullptr;
-        }
+        Node();
 
-        Node(T* value) {
-            this->value = value;
-            this->left = nullptr;
-            this->right = nullptr;
-        }
+        Node(T* value);
 
-        ~Node() {
-            if (this->left != nullptr) {
-                delete this->left;
-                this->left = nullptr;
-            }
-            if (this->right != nullptr) {
-                delete this->right;
-                this->right = nullptr;
-            }
-            delete this;
-        }
+        ~Node();
 	};
 
 	Node* head;
