@@ -209,11 +209,11 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
      * @return Нода с минимальным значением
      */
     private Node _findMin(Node node) {
-        if (node.left != null)
-            _findMin(node.left);
-        else
-            return node;
-        return node;
+        Node current = node;
+        while (current.left != null) {
+            current = current.left;
+        }
+        return current;
     }
 
     @Override

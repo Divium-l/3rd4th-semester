@@ -29,7 +29,7 @@ public:
 	}
 
 	bool const equals(Person* p) {
-		return this->age == p->age && this->name._Equal(p->name);
+		return this->age == p->age && this->name.compare(p->name);
 	}
 
 	const int compareTo(Person* object) override {
