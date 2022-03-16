@@ -10,7 +10,7 @@ package me.divium;
 
 import java.util.Comparator;
 
-public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
+public class BinaryTree<T extends Comparable<T>> {
 
     private class Node {
         public Node left;
@@ -39,6 +39,7 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
     public void add(T value) {
         if (this.head == null) {
            this.head = new Node(value);
+           size++;
            return;
         }
 
@@ -46,6 +47,7 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
             return;
 
         Node currentNode = head;
+        size++;
 
         while (currentNode != null) {
             if (currentNode.value.compareTo(value) > 0) {
@@ -75,30 +77,33 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
      * @return Boolean
      */
     public boolean contains(T value) {
-        return _getNode(value, value::compare) != null;
+        return _getNode(value) != null;
     }
 
     /**
-     * Поиск элемента в дереве
-     * @param value Объект для сравнения
-     * @param comparator Компаратор (для нахождения можно использовать 0 как true, и любое значение как false)
-     * @return Boolean
+     * Удаление элемента дерева
+     * @param value Удаляемый элемент
      */
-    public boolean contains(T value, Comparator<T> comparator) {
-        return _getNode(value, comparator) != null;
-    }
-
     public void remove(T value) {
-        _delete(value, value::compare);
+        size--;
+        _delete(value);
     }
 
-    public void remove(T value, Comparator<T> comparator) {
-        _delete(value, comparator);
+    /**
+     * Возвращает размер дерева
+     * @return Размер дерева
+     */
+    public int size() {
+        return this.size;
     }
 
-    public void _delete(T value, Comparator<T> comparator) {
-        Node removableNode = _getNode(value, comparator);
-        Node parent = _getParentNode(value, comparator);
+    /**
+     * Реализация удаления элемента
+     * @param value Удаляемый элемент
+     */
+    private void _delete(T value) {
+        Node removableNode = _getNode(value);
+        Node parent = _getParentNode(value);
 
         if (removableNode == null)
             return;
@@ -129,7 +134,7 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
         else {
             //удаление если есть и левый и правый
             Node min = _findMin(removableNode.right);
-            Node minParent = _getParentNode(min.value, value);
+            Node minParent = _getParentNode(min.value);
             minParent.left = null;
 
             if (parent.left == removableNode) {
@@ -145,11 +150,14 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
         }
     }
 
+    /**
+     * Удаление корня дерева
+     */
     private void _removeHead() {
         Node node;
         if (this.head.right != null) {
             node = _findMin(this.head.right);
-            Node parent = _getParentNode(node.value, node.value::compare);
+            Node parent = _getParentNode(node.value);
             node.left = this.head.left;
             node.right = this.head.right;
 
@@ -169,14 +177,14 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
      * @param value Объект для сравнения
      * @return Ноду, совпадающая с объектом
      */
-    private Node _getNode(T value, Comparator<T> comparator) {
-        Node parent = _getParentNode(value, comparator);
-        if (comparator.compare(this.head.value, value) == 0) {
+    private Node _getNode(T value) {
+        Node parent = _getParentNode(value);
+        if (this.head.value.compareTo(value) == 0) {
             return this.head;
         }
         else if (parent == null)
             return null;
-        return comparator.compare(parent.left.value, value) == 0 ? parent.left : parent.right;
+        return parent.left.value.compareTo(value) == 0? parent.left : parent.right;
     }
 
     /**
@@ -184,16 +192,16 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
      * @param value Объект для сравнения
      * @return Ноду, совпадающая с объектом
      */
-    private Node _getParentNode(T value, Comparator<T> comparator) {
+    private Node _getParentNode(T value) {
         Node current = this.head;
         Node parent = null;
 
         while (current != null) {
-            if (comparator.compare(current.value, value) > 0 ) {
+            if (current.value.compareTo(value) > 0 ) {
                 parent = current;
                 current = current.left;
             }
-            else if (comparator.compare(current.value, value) < 0) {
+            else if (current.value.compareTo(value) < 0) {
                 parent = current;
                 current = current.right;
             }
@@ -222,19 +230,19 @@ public class BinaryTree<T extends Comparable<T> & Comparator<T>> {
             return "null";
 
         builder.setLength(0);
-        toStringRecursion(this.head);
+        _toStringRecursion(this.head);
 
         return builder.toString();
     }
 
     private final StringBuilder builder = new StringBuilder();
 
-    private void toStringRecursion(Node node) {
+    private void _toStringRecursion(Node node) {
         if (node.left != null)
-            toStringRecursion(node.left);
+            _toStringRecursion(node.left);
 
         if (node.right != null)
-            toStringRecursion(node.right);
+            _toStringRecursion(node.right);
 
         builder.append(node.value);
     }
