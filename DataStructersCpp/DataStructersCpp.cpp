@@ -1,10 +1,9 @@
 ﻿#include <iostream>
-#include "LinkedList.cpp"
+#include "LinkedList.h"
+#include "BinaryTree.cpp"
 #include "Person.h"
-#include <string>
-#include <vector>
-#include <functional>
-#include <concepts>
+
+using namespace std;
 
 /* TODO
 *   # Перенести код логики с java
@@ -29,58 +28,11 @@
 *          из прошлой курсовой работы
 */
 
-using namespace std;
-
-class IExecutable {
-public:
-    virtual void run() = 0;// {};
-
-};
-
-class Exec1: public IExecutable {
-public:
-    virtual void run() override {
-        cout << "Exec1 " << endl;
-    }  
-
-};
-
-class Exec2 : public Exec1 {
-public:
-    virtual void run() override {
-        cout << "Exec2 " << nestedCall() << endl;
-    }
-
-private:
-    int nestedCall() {
-        return 10;
-    }
-};
-
-int main()
-{
-    //====
-    //Exec2 e2;
-    //Exec1& e1 = e2;
-    //e1.run();
-    //IExecutable& e0 = e2;
-    //e0.run();
-
-    vector<IExecutable*> vector;
-    IExecutable* e1 = new Exec1();
-    IExecutable* e2 = new Exec2();
-    vector.push_back(e1);
-    vector.push_back(e2);
-    IExecutable* runme = vector.at(0);
-    runme->run();
-    for (IExecutable* executable : vector) {
-        executable->run();
-    }
-    //====
-
+/*
+void linkedListDemonstration() {
     auto p1 = new Person();
     auto p2 = new Person("Bob", 19);
-    
+
     auto linkedList = new LinkedList<Person>();
     linkedList->add(p1);
     linkedList->add(p2);
@@ -106,4 +58,17 @@ int main()
     cout << a->contains(new double(4), [](auto a, auto b) {return *a == *b; }); //0
     cout << a->contains(new double(5), [](auto a, auto b) {return *a == *b; }); //1
     delete a;
+}
+*/
+
+int main()
+{
+    BinaryTree tree = BinaryTree<Person>();
+    Person p = Person();
+    Person p1("", 2);
+    tree.add(p1);
+    tree.add(p);
+    tree.add(Person("", 4));
+
+    cout << tree.toString();
 }

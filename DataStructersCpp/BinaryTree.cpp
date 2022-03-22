@@ -1,5 +1,7 @@
 #include "BinaryTree.h"
 
+using namespace std;
+
 #pragma region Node
 template<class T> BinaryTree<T>::Node::Node() {
 	this->value = nullptr;
@@ -7,7 +9,7 @@ template<class T> BinaryTree<T>::Node::Node() {
 	this->right = nullptr;
 }
 
-template<class T> BinaryTree<T>::Node::Node(T* value) {
+template<class T> BinaryTree<T>::Node::Node(T value) {
 	this->value = value;
 	this->left = nullptr;
 	this->right = nullptr;
@@ -27,27 +29,27 @@ template<class T> BinaryTree<T>::Node::~Node() {
 #pragma endregion Node
 
 #pragma region Private
-template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getNode(T* value) {
+template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getNode(T value) {
 	Node* parent = _getParentNode(value);
-	if (this->head->value->compareTo(value) == 0)
+	if (this->head->value.compareTo(value) == 0)
 		return this->head;
 
 	else if (parent == nullptr)
 		return nullptr;
 
-	return parent->left->value->compareTo(value) == 0 ? parent->left : parent->right;
+	return parent->left->value.compareTo(value) == 0 ? parent->left : parent->right;
 }
 
-template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getParentNode(T* value) {
+template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getParentNode(T value) {
 	Node* current = this->head;
 	Node* parent = nullptr;
 
 	while (current != nullptr) {
-		if (current->value->compareTo(value) > 0) {
+		if (current->value.compareTo(value) > 0) {
 			parent = current;
 			current = current->left;
 		}
-		else if (current->value->compareTo(value) < 0) {
+		else if (current->value.compareTo(value) < 0) {
 			parent = current;
 			current = current->right;
 		}
@@ -89,7 +91,7 @@ template<class T> void BinaryTree<T>::_removeHead() {
 	this->head = node;
 }
 
-template<class T> void BinaryTree<T>::_delete(T* value) {
+template<class T> void BinaryTree<T>::_delete(T value) {
 	Node* removableNode = _getNode(value);
 	Node* parent = _getParentNode(value);
 
@@ -145,12 +147,14 @@ template<class T> void BinaryTree<T>::_addNodeToOutputStream(Node* node) {
 	if (node->right != nullptr)
 		_addNodeToOutputStream(node->right);
 
-	outputStream << node->value->toString() << endl;
+	outputStream << node->value.toString() << endl;
 }
 #pragma endregion Private
 
 #pragma region Public
-template<class T> void BinaryTree<T>::add(T* value) {
+
+
+template<class T> void BinaryTree<T>::add(T value) {
 	if (this->head == nullptr) {
 		this->head = new Node(value);
 		return;
@@ -162,7 +166,7 @@ template<class T> void BinaryTree<T>::add(T* value) {
 	Node* currentNode = head;
 
 	while (currentNode != nullptr) {
-		if (currentNode->value->compareTo(value) > 0) {
+		if (currentNode->value.compareTo(value) > 0) {
 			//вставляем влево
 			if (currentNode->left == nullptr) {
 				currentNode->left = new Node(value);
@@ -185,7 +189,7 @@ template<class T> void BinaryTree<T>::add(T* value) {
 	}
 }
 
-template<class T> bool BinaryTree<T>::contains(T* value) {
+template<class T> bool BinaryTree<T>::contains(T value) {
 	return _getNode(value) != nullptr;
 }
 
@@ -199,11 +203,11 @@ template<class T> string BinaryTree<T>::toString() {
 	return this->outputStream.str();
 }
 
-template<class T> void BinaryTree<T>::remove(T* value) {
+template<class T> void BinaryTree<T>::remove(T value) {
 	_delete(value);
 }
 
-template<class T> void BinaryTree<T>::size() {
+template<class T> int BinaryTree<T>::size() {
 	return this->treeSize;
 }
 #pragma endregion Public
