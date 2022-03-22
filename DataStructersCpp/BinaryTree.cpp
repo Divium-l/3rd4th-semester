@@ -2,201 +2,208 @@
 
 #pragma region Node
 template<class T> BinaryTree<T>::Node::Node() {
-    this->value = nullptr;
-    this->left = nullptr;
-    this->right = nullptr;
+	this->value = nullptr;
+	this->left = nullptr;
+	this->right = nullptr;
 }
 
 template<class T> BinaryTree<T>::Node::Node(T* value) {
-    this->value = value;
-    this->left = nullptr;
-    this->right = nullptr;
+	this->value = value;
+	this->left = nullptr;
+	this->right = nullptr;
 }
 
 template<class T> BinaryTree<T>::Node::~Node() {
-    if (this->left != nullptr) {
-        delete this->left;
-        this->left = nullptr;
-    }
-    if (this->right != nullptr) {
-        delete this->right;
-        this->right = nullptr;
-    }
-    delete this;
+	if (this->left != nullptr) {
+		delete this->left;
+		this->left = nullptr;
+	}
+	if (this->right != nullptr) {
+		delete this->right;
+		this->right = nullptr;
+	}
+	delete this;
 }
 #pragma endregion Node
 
-/*
-#pragma region Public
-template<class T> Node* BinaryTree<T>::_getNode(T* value) {
-    Node* parent = _getParentNode(value);
-    if (this->head->value->compareTo(value) == 0)
-        return this->head;
-    
-    else if (parent == nullptr)
-        return nullptr;
+#pragma region Private
+template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getNode(T* value) {
+	Node* parent = _getParentNode(value);
+	if (this->head->value->compareTo(value) == 0)
+		return this->head;
 
-    return parent->left->value->compareTo(value) == 0 ? parent->left : parent->right;
+	else if (parent == nullptr)
+		return nullptr;
+
+	return parent->left->value->compareTo(value) == 0 ? parent->left : parent->right;
 }
 
-    Node* _getParentNode(T* value) {
-        Node* current = this->head;
-        Node* parent = nullptr;
+template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getParentNode(T* value) {
+	Node* current = this->head;
+	Node* parent = nullptr;
 
-        while (current != nullptr) {
-            if (current->value->compareTo(value) > 0 ) {
-                parent = current;
-                current = current->left;
-            }
-            else if (current->value->compareTo(value) < 0) {
-                parent = current;
-                current = current->right;
-            }
-            else
-                return parent;
-        }
+	while (current != nullptr) {
+		if (current->value->compareTo(value) > 0) {
+			parent = current;
+			current = current->left;
+		}
+		else if (current->value->compareTo(value) < 0) {
+			parent = current;
+			current = current->right;
+		}
+		else
+			return parent;
+	}
 
-        return nullptr;
-    }
+	return nullptr;
+}
 
-    Node* _findMin(Node* node) {
-        Node* current = node;
-        while (current->left != nullptr) {
-            current = current->left;
-        }
-        return current;
-    }
+template<class T> BinaryTree<T>::Node* BinaryTree<T>::_findMin(Node* node) {
+	Node* current = node;
 
-    void _removeHead() {
-        Node* node;
-        if (this->head->right != nullptr) {
-            node = _findMin(this->head->right);
-            Node* parent = _getParentNode(node->value);
-            node->left = this->head->left;
-            node->right = this->head->right;
+	while (current->left != nullptr)
+		current = current->left;
 
-            if (parent->left == node)
-                parent->left = nullptr;
-            else
-                parent->right = nullptr;
-        }
-        else {
-            node = this->head->left;
-        }
-        this->head = node;
-    }
 
-    void _delete(T* value) {
-        Node* removableNode = _getNode(value);
-        Node* parent = _getParentNode(value);
+	return current;
+}
 
-        if (removableNode == nullptr)
-            return;
+template<class T> void BinaryTree<T>::_removeHead() {
+	Node* node;
 
-        if (parent == nullptr) {
-            _removeHead();
-            return;
-        }
+	if (this->head->right != nullptr) {
+		node = _findMin(this->head->right);
+		Node* parent = _getParentNode(node->value);
+		node->left = this->head->left;
+		node->right = this->head->right;
 
-        if (removableNode->left == nullptr && removableNode->right == nullptr) {
-            if (parent->left == removableNode)
-                parent->left = nullptr;
-            else
-                parent->right = nullptr;
-        }
-        else if (removableNode->right == nullptr) {
-            if (parent->left == removableNode)
-                parent->left = removableNode->left;
-            else
-                parent->right = removableNode->left;
-        }
-        else if (removableNode->left == nullptr) {
-            if (parent->left == removableNode)
-                parent->left = removableNode->right;
-            else
-                parent->right = removableNode->right;
-        }
-        else {
-            //удаление если есть и левый и правый
-            Node* min = _findMin(removableNode->right);
-            Node* minParent = _getParentNode(min->value);
-            minParent->left = nullptr;
+		if (parent->left == node)
+			parent->left = nullptr;
+		else
+			parent->right = nullptr;
+	}
+	else
+		node = this->head->left;
 
-            if (parent->left == removableNode) {
-                min->left = removableNode->left;
-                min->right = removableNode->right;
-                parent->left = min;
-            }
-            else {
-                min->left = removableNode->left;
-                min->right = removableNode->right;
-                parent->right = min;
-            }
-        }
-    }
 
-public:
-    void add(T* value) {
-        if (this->head == nullptr) {
-            this->head = new Node(value);
-            return;
-        }
+	this->head = node;
+}
 
-        if (contains(value))
-            return;
+template<class T> void BinaryTree<T>::_delete(T* value) {
+	Node* removableNode = _getNode(value);
+	Node* parent = _getParentNode(value);
 
-        Node* currentNode = head;
+	if (removableNode == nullptr)
+		return;
 
-        while (currentNode != nullptr) {
-            if (currentNode->value->compareTo(value) > 0) {
-                //вставляем влево
-                if (currentNode->left == nullptr) {
-                    currentNode->left = new Node(value);
-                    return;
-                }
-                //идём дальше
-                else        
-                    currentNode = currentNode->left;
-            }
-            else {
-                //вставляем вправо
-                if (currentNode->right == nullptr) {
-                    currentNode->right = new Node(value);
-                    return;
-                }
-                //идём дальше
-                else
-                    currentNode = currentNode->right;
-            }
-        }
-    }
+	if (parent == nullptr) {
+		_removeHead();
+		return;
+	}
 
-    bool contains(T* value) {
-        return _getNode(value) != nullptr;
-    }
+	if (removableNode->left == nullptr && removableNode->right == nullptr) {
+		if (parent->left == removableNode)
+			parent->left = nullptr;
+		else
+			parent->right = nullptr;
+	}
+	else if (removableNode->right == nullptr) {
+		if (parent->left == removableNode)
+			parent->left = removableNode->left;
+		else
+			parent->right = removableNode->left;
+	}
+	else if (removableNode->left == nullptr) {
+		if (parent->left == removableNode)
+			parent->left = removableNode->right;
+		else
+			parent->right = removableNode->right;
+	}
+	else {
+		//удаление если есть и левый и правый
+		Node* min = _findMin(removableNode->right);
+		Node* minParent = _getParentNode(min->value);
+		minParent->left = nullptr;
 
-    string toString() {
-        if (head == nullptr)
-            return "null";
-    
-        this->outputStream.flush();
-        addNodeToOutputStream(head);
+		if (parent->left == removableNode) {
+			min->left = removableNode->left;
+			min->right = removableNode->right;
+			parent->left = min;
+		}
+		else {
+			min->left = removableNode->left;
+			min->right = removableNode->right;
+			parent->right = min;
+		}
+	}
+}
 
-        return this->outputStream.str();
-    }
+template<class T> void BinaryTree<T>::_addNodeToOutputStream(Node* node) {
+	if (node->left != nullptr)
+		_addNodeToOutputStream(node->left);
 
-    void remove(T* value) {
-        _delete(value);
-    }
+	if (node->right != nullptr)
+		_addNodeToOutputStream(node->right);
 
-    void addNodeToOutputStream(Node* node) {
-        if (node->left != nullptr)
-            addNodeToOutputStream(node->left);
+	outputStream << node->value->toString() << endl;
+}
+#pragma endregion Private
 
-        if (node->right != nullptr)
-            addNodeToOutputStream(node->right);
+#pragma region Public
+template<class T> void BinaryTree<T>::add(T* value) {
+	if (this->head == nullptr) {
+		this->head = new Node(value);
+		return;
+	}
 
-        outputStream << node->value->toString() << endl;
-    }
+	if (contains(value))
+		return;
 
-};
+	Node* currentNode = head;
+
+	while (currentNode != nullptr) {
+		if (currentNode->value->compareTo(value) > 0) {
+			//вставляем влево
+			if (currentNode->left == nullptr) {
+				currentNode->left = new Node(value);
+				return;
+			}
+			//идём дальше
+			else
+				currentNode = currentNode->left;
+		}
+		else {
+			//вставляем вправо
+			if (currentNode->right == nullptr) {
+				currentNode->right = new Node(value);
+				return;
+			}
+			//идём дальше
+			else
+				currentNode = currentNode->right;
+		}
+	}
+}
+
+template<class T> bool BinaryTree<T>::contains(T* value) {
+	return _getNode(value) != nullptr;
+}
+
+template<class T> string BinaryTree<T>::toString() {
+	if (head == nullptr)
+		return "null";
+
+	this->outputStream.flush();
+	_addNodeToOutputStream(head);
+
+	return this->outputStream.str();
+}
+
+template<class T> void BinaryTree<T>::remove(T* value) {
+	_delete(value);
+}
+
+template<class T> void BinaryTree<T>::size() {
+	return this->treeSize;
+}
+#pragma endregion Public
