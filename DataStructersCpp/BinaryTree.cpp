@@ -1,14 +1,8 @@
 #include "BinaryTree.h"
-
+#include <iostream>
 using namespace std;
 
 #pragma region Node
-template<class T> BinaryTree<T>::Node::Node() {
-	this->value = nullptr;
-	this->left = nullptr;
-	this->right = nullptr;
-}
-
 template<class T> BinaryTree<T>::Node::Node(T value) {
 	this->value = value;
 	this->left = nullptr;
@@ -20,11 +14,11 @@ template<class T> BinaryTree<T>::Node::~Node() {
 		delete this->left;
 		this->left = nullptr;
 	}
+
 	if (this->right != nullptr) {
 		delete this->right;
 		this->right = nullptr;
 	}
-	delete this;
 }
 #pragma endregion Node
 
@@ -152,7 +146,15 @@ template<class T> void BinaryTree<T>::_addNodeToOutputStream(Node* node) {
 #pragma endregion Private
 
 #pragma region Public
+template<class T> BinaryTree<T>::BinaryTree() {
+	this->head = nullptr;
+	this->treeSize = 0;
+}
 
+template<class T> BinaryTree<T>::~BinaryTree() {
+	if (this->head != nullptr)
+		delete this->head;
+}
 
 template<class T> void BinaryTree<T>::add(T value) {
 	if (this->head == nullptr) {
@@ -164,6 +166,7 @@ template<class T> void BinaryTree<T>::add(T value) {
 		return;
 
 	Node* currentNode = head;
+	treeSize++;
 
 	while (currentNode != nullptr) {
 		if (currentNode->value.compareTo(value) > 0) {
@@ -205,6 +208,7 @@ template<class T> string BinaryTree<T>::toString() {
 
 template<class T> void BinaryTree<T>::remove(T value) {
 	_delete(value);
+	treeSize--;
 }
 
 template<class T> int BinaryTree<T>::size() {

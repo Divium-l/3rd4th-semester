@@ -70,5 +70,5 @@ int main()
     tree.add(p);
     tree.add(Person("", 4));
 
-    cout << tree.toString();
+    cout << tree.toString() << tree.size();
 }

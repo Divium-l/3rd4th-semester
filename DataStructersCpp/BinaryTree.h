@@ -9,8 +9,6 @@ private:
 		Node* left;
 		Node* right;
 
-        Node();
-
         Node(T value);
 
         ~Node();
@@ -33,7 +31,9 @@ private:
     void _addNodeToOutputStream(Node* node);
 
 public:
+    BinaryTree();
 
+    ~BinaryTree();
 
     /*
     * @brief Добавление элемента в дерево
