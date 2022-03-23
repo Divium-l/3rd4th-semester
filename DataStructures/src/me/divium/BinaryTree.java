@@ -158,8 +158,12 @@ public class BinaryTree<T extends Comparable<T>> {
         if (this.head.right != null) {
             node = _findMin(this.head.right);
             Node parent = _getParentNode(node.value);
-            node.left = this.head.left;
-            node.right = this.head.right;
+
+            if (this.head.left != node)
+                node.left = this.head.left;
+
+            if (this.head.right != node)
+                node.right = this.head.right;
 
             if (parent.left == node)
                 parent.left = null;

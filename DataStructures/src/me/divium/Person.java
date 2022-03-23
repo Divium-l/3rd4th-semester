@@ -22,6 +22,13 @@ public class Person implements Comparable<Person>, Comparator<Person> {
         this.name = name;
     }
 
+    public Person(String name, int age) {
+        incrementCount();
+        this.id = count;
+        this.age = age;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return String.format("{id: %d, name: %s, age: %d}", id, name, age);

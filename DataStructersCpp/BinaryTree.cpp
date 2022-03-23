@@ -25,6 +25,7 @@ template<class T> BinaryTree<T>::Node::~Node() {
 #pragma region Private
 template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getNode(T value) {
 	Node* parent = _getParentNode(value);
+
 	if (this->head->value.compareTo(value) == 0)
 		return this->head;
 
@@ -72,6 +73,12 @@ template<class T> void BinaryTree<T>::_removeHead() {
 		Node* parent = _getParentNode(node->value);
 		node->left = this->head->left;
 		node->right = this->head->right;
+
+		if (this->head->left != node)
+			node->left = this->head->left;
+
+		if (this->head->right != node)
+			node->right = this->head->right;
 
 		if (parent->left == node)
 			parent->left = nullptr;
