@@ -140,14 +140,24 @@ template<class T> void BinaryTree<T>::_delete(T value) {
 	}
 }
 
-template<class T> void BinaryTree<T>::_addNodeToOutputStream(Node* node) {
-	if (node->left != nullptr)
-		_addNodeToOutputStream(node->left);
+ template<class T> void BinaryTree<T>::_appendLeft(Node* node) {
+    if (node != nullptr) {
+        _appendLeft(node->left);
+        outputStream << node->value.toString() << endl;
+        if (node->right != nullptr) {
+            _appendLeft(node->right);
+        }
+    }
+}
 
-	if (node->right != nullptr)
-		_addNodeToOutputStream(node->right);
-
-	outputStream << node->value.toString() << endl;
+template<class T> void BinaryTree<T>::_appendRight(Node* node) {
+    if (node != nullptr) {
+        _appendLeft(node->left);
+        outputStream << node->value.toString() << endl;
+        if (node->right != nullptr) {
+            _appendLeft(node->right);
+        }
+    }
 }
 #pragma endregion Private
 
@@ -207,7 +217,10 @@ template<class T> string BinaryTree<T>::toString() {
 		return "null";
 
 	this->outputStream.str("");
-	_addNodeToOutputStream(head);
+
+	_appendLeft(this->head->left);
+    outputStream << this->head->value.toString() << endl;
+    _appendRight(this->head->right);
 
 	return this->outputStream.str();
 }

@@ -234,20 +234,33 @@ public class BinaryTree<T extends Comparable<T>> {
             return "null";
 
         builder.setLength(0);
-        _toStringRecursion(this.head);
+        appendLeft(this.head.left);
+        builder.append(this.head.value);
+        appendRight(this.head.right);
 
         return builder.toString();
     }
 
     private final StringBuilder builder = new StringBuilder();
 
-    private void _toStringRecursion(Node node) {
-        if (node.left != null)
-            _toStringRecursion(node.left);
-
-        if (node.right != null)
-            _toStringRecursion(node.right);
-
-        builder.append(node.value);
+    private void appendLeft(Node node) {
+        if (node != null) {
+            appendLeft(node.left);
+            builder.append(node.value);
+            if (node.right != null) {
+                appendLeft(node.right);
+            }
+        }
     }
+
+    private void appendRight(Node node) {
+        if (node != null) {
+            appendLeft(node.left);
+            builder.append(node.value);
+            if (node.right != null) {
+                appendLeft(node.right);
+            }
+        }
+    }
+
 }

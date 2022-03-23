@@ -30,6 +30,10 @@ private:
 
     void _addNodeToOutputStream(Node* node);
 
+    void _appendLeft(Node* node);
+
+    void _appendRight(Node* node);
+
 public:
     BinaryTree();
 
