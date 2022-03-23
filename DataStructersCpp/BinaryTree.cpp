@@ -234,3 +234,7 @@ template<class T> int BinaryTree<T>::size() {
 	return this->treeSize;
 }
 #pragma endregion Public
+
+template<class T> ostream& operator<<(std::ostream& out, BinaryTree<T>& tree) {
+	return out << tree.toString();
+}

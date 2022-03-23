@@ -66,4 +66,6 @@ public:
     * @brief Возвращает размер дерева
     */
     int size();
+
+    friend std::ostream& operator<<(std::ostream& out, BinaryTree<T>& tree);
 };
