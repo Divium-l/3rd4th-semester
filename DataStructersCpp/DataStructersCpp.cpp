@@ -129,6 +129,6 @@ void treeContains(BinaryTree<Person>& tree, Person& p1, Person& p3) {
 
 void treeRemove(BinaryTree<Person>& tree, Person& root, Person& p1, Person& p2) {
     tree.remove(root);
-    //tree.remove(p1);
-    //tree.remove(p2);
+    tree.remove(p1);
+    tree.remove(p2);
 }

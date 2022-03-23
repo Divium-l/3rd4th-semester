@@ -1,6 +1,8 @@
 #include "BinaryTree.h"
-#include <iostream>
+
 using namespace std;
+
+template<class T> typename T::Node* TreeNode;
 
 #pragma region Node
 template<class T> BinaryTree<T>::Node::Node(T value) {
@@ -23,7 +25,7 @@ template<class T> BinaryTree<T>::Node::~Node() {
 #pragma endregion Node
 
 #pragma region Private
-template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getNode(T value) {
+template<class T> typename BinaryTree<T>::Node* BinaryTree<T>::_getNode(T value) {
 	Node* parent = _getParentNode(value);
 
 	if (this->head->value.compareTo(value) == 0)
@@ -35,7 +37,7 @@ template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getNode(T value) {
 	return parent->left->value.compareTo(value) == 0 ? parent->left : parent->right;
 }
 
-template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getParentNode(T value) {
+template<class T> typename BinaryTree<T>::Node* BinaryTree<T>::_getParentNode(T value) {
 	Node* current = this->head;
 	Node* parent = nullptr;
 
@@ -55,7 +57,7 @@ template<class T> BinaryTree<T>::Node* BinaryTree<T>::_getParentNode(T value) {
 	return nullptr;
 }
 
-template<class T> BinaryTree<T>::Node* BinaryTree<T>::_findMin(Node* node) {
+template<class T> typename BinaryTree<T>::Node* BinaryTree<T>::_findMin(Node* node) {
 	Node* current = node;
 
 	while (current->left != nullptr)
@@ -71,8 +73,6 @@ template<class T> void BinaryTree<T>::_removeHead() {
 	if (this->head->right != nullptr) {
 		node = _findMin(this->head->right);
 		Node* parent = _getParentNode(node->value);
-		node->left = this->head->left;
-		node->right = this->head->right;
 
 		if (this->head->left != node)
 			node->left = this->head->left;
@@ -87,7 +87,6 @@ template<class T> void BinaryTree<T>::_removeHead() {
 	}
 	else
 		node = this->head->left;
-
 
 	this->head = node;
 }
@@ -207,7 +206,7 @@ template<class T> string BinaryTree<T>::toString() {
 	if (head == nullptr)
 		return "null";
 
-	this->outputStream.flush();
+	this->outputStream.str("");
 	_addNodeToOutputStream(head);
 
 	return this->outputStream.str();

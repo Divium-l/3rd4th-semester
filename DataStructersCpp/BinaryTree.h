@@ -3,7 +3,7 @@
 #include <sstream>
 
 template<class T> class BinaryTree {
-private:
+private:    
 	struct Node {
 		T value;
 		Node* left;

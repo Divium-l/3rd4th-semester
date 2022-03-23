@@ -69,7 +69,7 @@ template<class T> LinkedList<T>::LinkedList() {
 	this->listSize = 1;
 }
 
-template<class T>LinkedList<T>::~LinkedList() {
+template<class T> LinkedList<T>::~LinkedList() {
 	delete node;
 }
 #pragma endregion
