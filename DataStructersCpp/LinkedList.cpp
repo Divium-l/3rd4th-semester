@@ -5,13 +5,7 @@
 using namespace std;
 
 #pragma region Node constructors and destructors
-
-template<class T> LinkedList<T>::Node::Node() {
-	this->data = nullptr;
-	this->next = nullptr;
-}
-
-template<class T> LinkedList<T>::Node::Node(T* data) {
+template<class T> LinkedList<T>::Node::Node(T data) {
 	this->data = data;
 	this->next = nullptr;
 }
@@ -23,7 +17,6 @@ template<class T> LinkedList<T>::Node::~Node() {
 #pragma endregion
 
 #pragma region Linked List Private Methods
-
 template<class T> void LinkedList<T>::increaseSize() {
 	listSize++;
 }
@@ -33,7 +26,7 @@ template<class T> void LinkedList<T>::decreaseSize() {
 }
 
 template<class T> void const LinkedList<T>::validateIndex(const int index) {
-	if (index < 0 || index > listSize - 1)
+	if (index < 0 || index > listSize)
 		throw new out_of_range("Index out of bounds");
 }
 
@@ -63,10 +56,9 @@ template<class T> void LinkedList<T>::deleteNextNode(Node* currentNode) {
 #pragma endregion
 
 #pragma region Linked List Constructors and destructors
-
 template<class T> LinkedList<T>::LinkedList() {
-	this->node = new Node();
-	this->listSize = 1;
+	this->node = nullptr;
+	this->listSize = 0;
 }
 
 template<class T> LinkedList<T>::~LinkedList() {
@@ -75,15 +67,14 @@ template<class T> LinkedList<T>::~LinkedList() {
 #pragma endregion
 
 #pragma region Linked List Public Methods
-
-template<class T> void LinkedList<T>::add(T* data) {
-	Node* currentNode = this->node;
-
+template<class T> void LinkedList<T>::add(T data) {
 	//Первичное добавление элемента в список
-	if (currentNode->data == nullptr) {
-		currentNode->data = data;
+	if (this->node == nullptr) {
+		this->node = new Node(data);
 		return;
 	}
+
+	Node* currentNode = this->node;
 
 	//Добавление элемента в конец списка
 	//Поиск последней ноды
@@ -94,7 +85,7 @@ template<class T> void LinkedList<T>::add(T* data) {
 	increaseSize();
 }
 
-template<class T> void LinkedList<T>::insert(T* data, const int index) {
+template<class T> void LinkedList<T>::insert(T data, const int index) {
 	validateIndex(index);
 
 	if (index == 0) {
@@ -118,11 +109,11 @@ template<class T> void LinkedList<T>::insert(T* data, const int index) {
 	increaseSize();
 }
 
-template<class T> bool const LinkedList<T>::contains(T* data) {
+template<class T> bool const LinkedList<T>::contains(T data) {
 	Node* currentNode = this->node;
 
 	while (currentNode != nullptr) {
-		if (currentNode->data->equals(data))
+		if (currentNode->data.equals(data))
 			return true;
 
 		currentNode = currentNode->next;
@@ -131,7 +122,7 @@ template<class T> bool const LinkedList<T>::contains(T* data) {
 	return false;
 }
 
-template<class T> bool const LinkedList<T>::contains(T* data, bool (*lambda)(T* object1, T* object2)) {
+template<class T> bool const LinkedList<T>::contains(T data, bool (*lambda)(T& object1, T& object2)) {
 	Node* currentNode = this->node;
 
 	while (currentNode != nullptr) {
@@ -159,15 +150,18 @@ template<class T> void LinkedList<T>::remove(const int index) {
 	deleteNextNode(currentNode);
 }
 
-template<class T> void LinkedList<T>::remove(T* data) {
-	if (this->node->data->equals(data)) {
+template<class T> void LinkedList<T>::remove(T data) {
+	if (this->node == nullptr)
+		return;
+
+	if (this->node->data.equals(data)) {
 		deleteFirstNode();
 		return;
 	}
 
 	auto currentNode = this->node;
 	while (currentNode->next != nullptr) {
-		if (currentNode->next->data->equals(data)) {
+		if (currentNode->next->data.equals(data)) {
 			deleteNextNode(currentNode);
 			return;
 		}
@@ -177,8 +171,11 @@ template<class T> void LinkedList<T>::remove(T* data) {
 
 }
 
-template<class T> void LinkedList<T>::remove(T* data, bool (*lambda)(T* object1, T* object2)) {
-	if (lambda(this->node->data)) {
+template<class T> void LinkedList<T>::remove(T data, bool (*lambda)(T& object1, T& object2)) {
+	if (this->node == nullptr)
+		return;
+
+	if (lambda(this->node->data, data)) {
 		deleteFirstNode();
 		return;
 	}
@@ -193,12 +190,12 @@ template<class T> void LinkedList<T>::remove(T* data, bool (*lambda)(T* object1,
 	}
 }
 
-template<class T> void LinkedList<T>::removeAll(T* data) {
+template<class T> void LinkedList<T>::removeAll(T data) {
 	while (this->contains(data))
 		remove(data);
 }
 
-template<class T> void LinkedList<T>::removeAll(T* data, bool (*lambda)(T* object1, T* object2)) {
+template<class T> void LinkedList<T>::removeAll(T data, bool (*lambda)(T& object1, T& object2)) {
 	while (this->contains(data, lambda))
 		remove(data, lambda);
 }
@@ -212,7 +209,7 @@ template<class T> string const LinkedList<T>::toString() {
 	Node* currentNode = this->node;
 
 	while (currentNode != nullptr) {
-		stream << currentNode->data->toString() << "->";
+		stream << currentNode->data.toString() << "->";
 		currentNode = currentNode->next;
 	}
 
@@ -220,7 +217,7 @@ template<class T> string const LinkedList<T>::toString() {
 	return stream.str();
 }
 
-template<class T> string const LinkedList<T>::toString(string(*lambda)(T* object)) {
+template<class T> string const LinkedList<T>::toString(string(*lambda)(T& object)) {
 	stringstream stream;
 	Node* currentNode = this->node;
 

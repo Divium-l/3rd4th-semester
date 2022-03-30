@@ -8,12 +8,10 @@ private:
 	/* @brief Контейнер для хранения данных*/
 	struct Node {
 
-		T* data;
+		T data;
 		Node* next;
 
-		Node();
-
-		Node(T* data);
+		Node(T data);
 
 		~Node();
 	};
@@ -46,21 +44,21 @@ public:
 	* @brief Добавляет элемент в конец списка
 	* @param data Добовляемый объект
 	*/
-	void add(T* data);
+	void add(T data);
 
 	/*
 	* @brief Всталяет элемент на указанный индекс (нельзя добавить элмент в конец списка)
 	* @param data Всталяемый объект
 	* @param idnex Индекс
 	*/
-	void insert(T* data, const int index);
+	void insert(T data, const int index);
 
 	/*
 	* @brief Проверяет есть ли элемет в списке. Для проверки вызывает метод equals у объекта
 	* @param data Искомый объект
 	* @return True если есть
 	*/
-	bool const contains(T* data);
+	bool const contains(T data);
 
 	/*
 	* @brief Проверяет есть ли элемет в списке. Для проверки используется функция компоратор 
@@ -68,7 +66,7 @@ public:
 	* @param lambda Компоратор 
 	* @return True если есть
 	*/
-	bool const contains(T* data, bool (*lambda)(T* object1, T* object2));
+	bool const contains(T data, bool (*lambda)(T& object1, T& object2));
 
 	/*
 	* @brief Удаляет элмент по индексу
@@ -80,20 +78,20 @@ public:
 	* @brief Удаляет искомый элмент в списке. Для поиска элемента вызывается метод equals
 	* @param data Искомый объект
 	*/
-	void remove(T* data);
+	void remove(T data);
 
 	/*
 	* @brief Удаляет искомый элемет в списке. Для поиска используется функция компоратор 
 	* @param data Искомый объект
 	* @param lambda Компоратор 
 	*/
-	void remove(T* data, bool (*lambda)(T* object1, T* object2));
+	void remove(T data, bool (*lambda)(T& object1, T& object2));
 
 	/*
 	* @brief Удаляет все искомые элементы в списке. Для поиска вызывается метод equals
 	* @param data Искомый объект
 	*/
-	void removeAll(T* data);
+	void removeAll(T data);
 
 	/*
 	* @brief Удаляет все искомые элементы. Для проверки используется функция компоратор 
@@ -101,7 +99,7 @@ public:
 	* @param lambda Компоратор 
 	* @return True если есть
 	*/
-	void removeAll(T* data, bool (*lambda)(T* object1, T* object2));
+	void removeAll(T data, bool (*lambda)(T& object1, T& object2));
 
 	/*
 	* @return Размер списка
@@ -119,5 +117,5 @@ public:
 	* @param lambda Функция реализации преобразования объекта в строку
 	* @return Строка заданного вида
 	*/
-	std::string const toString(std::string(*lambda)(T* object));
+	std::string const toString(std::string(*lambda)(T& object));
 };
