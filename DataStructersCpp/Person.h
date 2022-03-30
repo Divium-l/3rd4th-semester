@@ -28,20 +28,12 @@ public:
 		return stream.str();
 	}
 
-	bool const equals(Person p) {
-		return this->age == p.age && this->name.compare(p.name);
+	bool const equals(Person& p) {
+		return this->age == p.age && this->name._Equal(name);
 	}
 
 	const int compareTo(Person object) override {
 		return this->age - object.age;
-	}
-
-	bool const equals(Person* p) {
-		return this->age == p->age && this->name.compare(p->name);
-	}
-
-	const int compareTo(Person* object) {
-		return this->age - object->age;
 	}
 };
 
