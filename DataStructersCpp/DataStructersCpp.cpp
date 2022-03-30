@@ -28,38 +28,8 @@ using namespace std;
 *          из прошлой курсовой работы
 */
 
-/*
-void linkedListDemonstration() {
-    auto p1 = new Person();
-    auto p2 = new Person("Bob", 19);
 
-    auto linkedList = new LinkedList<Person>();
-    linkedList->add(p1);
-    linkedList->add(p2);
-    cout << linkedList->toString() << endl;
-    //cout << linkedList << endl;
-    cout << linkedList->toString([](Person* p) -> string {return p->name; }) << endl;
-    cout << linkedList->contains(new Person("Bob", 19)) << endl;
-    cout << linkedList->contains(new Person("Bob", 18)) << endl;
-    linkedList->insert(new Person("Jane", 21), 1);
-    linkedList->insert(new Person(), 0);
-    linkedList->add(new Person());
-    cout << "=================================\n";
-    cout << linkedList->toString() << endl;
-    linkedList->removeAll(new Person());
-    cout << linkedList->toString() << endl;
-    cout << "=================================\n";
-
-    delete linkedList;
-    delete p1, p2;
-
-    auto a = new LinkedList<double>();
-    a->add(new double(5));
-    cout << a->contains(new double(4), [](auto a, auto b) {return *a == *b; }); //0
-    cout << a->contains(new double(5), [](auto a, auto b) {return *a == *b; }); //1
-    delete a;
-}
-*/
+void linkedListDemonstration();
 
 void treeDemonstration();
 
@@ -75,7 +45,36 @@ const string SEPARATOR = "===================================";
 
 int main()
 {
+    linkedListDemonstration();
+    cout << endl << endl;
     treeDemonstration();
+}
+
+void linkedListDemonstration() {
+    auto p1 = Person();
+    auto p2 = Person("Bob", 19);
+
+    auto linkedList = LinkedList<Person>();
+
+    linkedList.add(p1);
+    linkedList.add(p2);
+
+    cout << linkedList.toString() << endl;
+    cout << linkedList.toString([](Person& p) -> string {return p.name; }) << endl;
+    cout << linkedList.contains(Person("Bob", 19)) << endl; 
+    cout << linkedList.contains(Person("Bob", 18)) << endl; 
+
+    linkedList.insert(Person("Jane", 21), 1);
+    linkedList.insert(Person(), 0);
+    linkedList.add(Person());
+
+    cout << SEPARATOR << endl;
+    cout << linkedList.toString() << endl;
+
+    linkedList.removeAll(Person());
+
+    cout << linkedList.toString() << endl;
+    cout << SEPARATOR << endl;
 }
 
 void treeDemonstration() {
@@ -88,10 +87,13 @@ void treeDemonstration() {
     Person root = Person("Name 3", 26);
 
     treeAdd(tree, root, p1, p2);
+
     cout << tree.toString() << SEPARATOR << endl;
     pressEnterToContinue();
+
     treeContains(tree, p1, p3);
     pressEnterToContinue();
+
     cout << "Removing this elements: " << p1.toString() << p2.toString() << root.toString() << " from the tree" << endl;
     treeRemove(tree, root, p1, p2);
     cout << tree.toString() << SEPARATOR << endl;
@@ -119,11 +121,11 @@ void treeAdd(BinaryTree<Person>& tree, Person& root, Person& p1, Person& p2) {
 
 void treeContains(BinaryTree<Person>& tree, Person& p1, Person& p3) {
     cout << "Checking if element " << p1.toString() << " is in the tree" << endl;
-    string response = tree.contains(p1) ? "is in the tree" : "is not it the tree";
+    string response = tree.contains(p1) ? "true" : "false";
     cout << response << endl;
 
     cout << "Checking if element " << p3.toString() << " is in the tree" << endl;
-    response = tree.contains(p3) ? "is in the tree" : "is not it the tree";
+    response = tree.contains(p3) ? "true" : "false";
     cout << response << endl;
 }
 
