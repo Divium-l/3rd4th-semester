@@ -109,6 +109,18 @@ template<class T> void LinkedList<T>::insert(T data, const int index) {
 	increaseSize();
 }
 
+template<class T> void LinkedList<T>::insert(T data, T after) {
+	Node* currentNode = this->node;
+
+	while (currentNode != nullptr && currentNode->data.equals(after))
+		currentNode = currentNode->next;
+
+	Node* nextNode = currentNode->next;
+	currentNode->next = new Node(data);
+	currentNode->next->next = nextNode;
+	increaseSize();
+}
+
 template<class T> bool const LinkedList<T>::contains(T data) {
 	Node* currentNode = this->node;
 

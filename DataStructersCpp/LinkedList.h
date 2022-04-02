@@ -54,6 +54,13 @@ public:
 	void insert(T data, const int index);
 
 	/*
+	* @brief Всталяет элемент после найденного объекта
+	* @param data Всталяемый объект
+	* @param after Искомый объект
+	*/
+	void insert(T data, T after);
+
+	/*
 	* @brief Проверяет есть ли элемет в списке. Для проверки вызывает метод equals у объекта
 	* @param data Искомый объект
 	* @return True если есть
