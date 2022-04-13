@@ -84,7 +84,7 @@ void Color::setBlue(int blue) {
 
 std::string Color::toString() {
 	std::ostringstream stream;
-	stream << "RGB{" << "r: " << red << ", g: " << green << ", b" << blue << "}";
+	stream << "RGB{" << "r: " << (int) red << ", g: " << (int) green << ", b: " << (int) blue << "}";
 	return stream.str();
 }
-#pragma endregion public
+#pragma endregion publicma
