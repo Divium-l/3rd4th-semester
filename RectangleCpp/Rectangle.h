@@ -6,6 +6,8 @@
 #include "Point.h"
 #include "Object.h"
 
+//выбрасывать исключение если прямоугольник является линией или точкой
+
 class Rectangle: public Object {
 private:
     Point firstPoint;

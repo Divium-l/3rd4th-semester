@@ -1,6 +1,17 @@
 CC = g++
 CFLAGS = -std=c++20
 
+SOURCES = source/Color.cpp source/Font.cpp \
+		source/Point.cpp source/LineStyle.cpp \
+		source/Rectangle.cpp main.cpp \
+
+HEADERS = include/Color.hpp include/Font.hpp \
+		include/LineStyle.hpp include/LineType.hpp \
+		include/Object.hpp includes/Point.hpp \
+		include/Rectangle.hpp include/Colors.hpp\
+
+OBJECTS = $(SOURCES:.cpp = .o)
+
 all: Color.o Font.o LineStyle.o Point.o Rectangle.o Shape.o main.o
 	$(CC) Color.o Font.o LineStyle.o Point.o Rectangle.o Shape.o main.o -o output
 

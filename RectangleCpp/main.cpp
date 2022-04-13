@@ -10,7 +10,12 @@ int main() {
     auto secondPoint = Point(1, 1);
     auto color = Color(0, 0, 0);
     auto rectangle = Rectangle(firstPoint, secondPoint, color);
+    
     cout << endl << endl;
     cout << rectangle.toString() << endl;
+    cout << endl << endl;
+
+    cout << endl << endl;
+    cout << Rectangle(Point(5, 5), Point(-10, 10), Color(255, 0, 46)).toString() << endl;
     cout << endl << endl;
 }
