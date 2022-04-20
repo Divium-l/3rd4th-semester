@@ -39,6 +39,8 @@ public:
 
     void setBlue(int blue);
 
+    friend std::ostream& operator<<(std::ostream &out, Color& color);
+
     std::string toString() override;
 };
 

@@ -87,4 +87,9 @@ std::string Color::toString() {
 	stream << "RGB{" << "r: " << (int) red << ", g: " << (int) green << ", b: " << (int) blue << "}";
 	return stream.str();
 }
-#pragma endregion publicma
+#pragma endregion public
+
+std::ostream& operator<<(std::ostream &out, Color& color) {
+	out << color.toString();
+	return out;
+}

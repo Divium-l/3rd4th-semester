@@ -1,12 +1,13 @@
 #pragma once
 
 #include <sstream>
+#include <stdexcept>
 
 #include "Color.h"
 #include "Point.h"
 #include "Object.h"
 
-//выбрасывать исключение если прямоугольник является линией или точкой
+// + выбрасывать исключение если прямоугольник является линией или точкой
 
 class Rectangle: public Object {
 private:
@@ -14,44 +15,26 @@ private:
     Point secondPoint;
     Color color;
 
+    void isValid(Point& firstPoint, Point& secondPoint);
+
 public:
 
-    Rectangle(Point firstPoint, Point secondPoint, Color color) {
-        this->firstPoint = firstPoint;
-        this->secondPoint = secondPoint;
-        this->color = color;
-    }
+    Rectangle(Point firstPoint, Point secondPoint, Color color);
 
-    Point getFirstPoint() {
-        return firstPoint;
-    }
+    Point getFirstPoint();
 
-    Point getSecondPoint() {
-        return secondPoint;
-    }
+    Point getSecondPoint();
 
-    Color getColor() {
-        return color;
-    }
+    Color getColor();
 
-    void setFirstPoint(Point firstPoint) {
-        this->firstPoint = firstPoint;
-    }
+    void setFirstPoint(Point firstPoint);
 
-    void setSecondPoint(Point secondPoint) {
-        this->secondPoint = secondPoint;
-    }
+    void setSecondPoint(Point secondPoint);
 
-    void setColor(Color color) {
-        this->color = color;
-    }
+    void setColor(Color color);
 
-    std::string toString() override {
-        std::stringstream stream;
-        stream << "Rectangle{" << "firstPoint: " << firstPoint.toString()
-            << ", secondPoint: " << secondPoint.toString()
-            << ", color: " << color.toString() << "}";
-        return stream.str();
-    }
+	friend std::ostream& operator<<(std::ostream &out, Rectangle& rectangle);
+
+    std::string toString() override;
 };
 

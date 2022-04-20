@@ -8,11 +8,11 @@ using namespace std;
 int main() {
     auto firstPoint = Point(0, 0);
     auto secondPoint = Point(1, 1);
-    auto color = Color(0, 0, 0);
+    auto color = Color(Colors::BLACK);
     auto rectangle = Rectangle(firstPoint, secondPoint, color);
     
     cout << endl << endl;
-    cout << rectangle.toString() << endl;
+    cout << rectangle << endl;
     cout << endl << endl;
 
     cout << endl << endl;
