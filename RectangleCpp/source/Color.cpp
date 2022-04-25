@@ -1,4 +1,4 @@
-#include "Color.h"
+#include "../include/Color.h"
 
 #pragma region private
 bool Color::isValid(int number) {

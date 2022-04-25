@@ -16,28 +16,26 @@ OBJECTS = $(SOURCES:.cpp = .o)
 $(NAME): $(OBJECTS) $(HEADERS)
 	$(CC) -c $< -o $@
 
-all: Color.o Font.o LineStyle.o Point.o Rectangle.o Shape.o main.o
-	$(CC) Color.o Font.o LineStyle.o Point.o Rectangle.o Shape.o main.o -o output
+all: Color.o Font.o LineStyle.o Point.o Rectangle.o main.o
+	$(CC) Color.o Font.o LineStyle.o Point.o Rectangle.o main.o -o output
 
-Color.o: Color.h Color.cpp
-	$(CC) $(CFLAGS) -c Color.h Color.cpp
+Color.o: include/Color.h source/Color.cpp
+	$(CC) $(CFLAGS) -c include/Color.h source/Color.cpp
 
-Font.o: Font.h Font.cpp
-	$(CC) $(CFLAGS) -c Font.h Font.cpp
+Font.o: include/Font.h source/Font.cpp
+	$(CC) $(CFLAGS) -c include/Font.h source/Font.cpp
 
-LineStyle.o: LineStyle.h LineStyle.cpp
-	$(CC) $(CFLAGS) -c LineStyle.h LineStyle.cpp
+LineStyle.o: include/LineStyle.h source/LineStyle.cpp
+	$(CC) $(CFLAGS) -c include/LineStyle.h source/LineStyle.cpp
 
-Point.o: Point.h Point.cpp
-	$(CC) $(CFLAGS) -c Point.h Point.cpp
+Point.o: include/Point.h source/Point.cpp
+	$(CC) $(CFLAGS) -c include/Point.h source/Point.cpp
 
-Rectangle.o: Rectangle.h Rectangle.cpp
-	$(CC) $(CFLAGS) -c Rectangle.h Rectangle.cpp
+Rectangle.o: include/Rectangle.h source/Rectangle.cpp
+	$(CC) $(CFLAGS) -c include/Rectangle.h source/Rectangle.cpp
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp
 
 clean:
-	rm *.o rm *.gch rm output
-
-
+	rm *.o rm include/*.gch rm output

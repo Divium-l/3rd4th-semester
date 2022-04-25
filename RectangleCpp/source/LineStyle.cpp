@@ -1,4 +1,4 @@
-#include "LineStyle.h"
+#include "../include/LineStyle.h"
 
 #pragma region private
 void LineStyle::throwExceptionIfIllegalWidth(int width) {

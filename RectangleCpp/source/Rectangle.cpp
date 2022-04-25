@@ -1,4 +1,4 @@
-#include "Rectangle.h"
+#include "../include/Rectangle.h"
 
 void Rectangle::isValid(Point& firstPoint, Point& secondPoint) {
     if (firstPoint.x == secondPoint.x 

@@ -1,4 +1,4 @@
-#include "Point.h"
+#include "../include/Point.h"
 
 Point::Point() {
     this->x = 0;

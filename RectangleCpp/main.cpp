@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Rectangle.h"
-#include "Point.h"
+#include "include/Rectangle.h"
+#include "include/Point.h"
 
 
 using namespace std;
