@@ -1,16 +1,28 @@
 #include "../include/Rectangle.h"
 
-void Rectangle::isValid(Point& firstPoint, Point& secondPoint) {
+void Rectangle::validate(Point& firstPoint, Point& secondPoint) {
     if (firstPoint.x == secondPoint.x 
         || firstPoint.y == secondPoint.y)
             throw std::invalid_argument("Rectangle cannot be line or a point");
 
 }
 
+void Rectangle::validate(int width, int height) {
+    if (width < 0 || height < 0)
+        throw std::invalid_argument("Width or height cannot be < 0");
+}
+
 Rectangle::Rectangle(Point firstPoint, Point secondPoint, Color color) {
-    isValid(firstPoint, secondPoint);
+    validate(firstPoint, secondPoint);
     this->firstPoint = firstPoint;
     this->secondPoint = secondPoint;
+    this->color = color;
+}
+
+Rectangle::Rectangle(Point firstPoint, int width, int height, Color color) {
+    validate(width, height);
+    this->firstPoint = firstPoint;
+    this->secondPoint = Point(firstPoint.x + width, firstPoint.y + height);
     this->color = color;
 }
 
@@ -27,12 +39,12 @@ Color Rectangle::getColor() {
 }
 
 void Rectangle::setFirstPoint(Point firstPoint) {
-    isValid(firstPoint, this->secondPoint);
+    validate(firstPoint, this->secondPoint);
     this->firstPoint = firstPoint;
 }
 
 void Rectangle::setSecondPoint(Point secondPoint) {
-    isValid(this->firstPoint, secondPoint);
+    validate(this->firstPoint, secondPoint);
     this->secondPoint = secondPoint;
 }
 

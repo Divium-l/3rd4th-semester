@@ -15,11 +15,15 @@ private:
     Point secondPoint;
     Color color;
 
-    void isValid(Point& firstPoint, Point& secondPoint);
+    void validate(Point& firstPoint, Point& secondPoint);
+
+    void validate(int width, int height);
 
 public:
 
     Rectangle(Point firstPoint, Point secondPoint, Color color);
+
+    Rectangle(Point firstPoint, int width, int height, Color color);
 
     Point getFirstPoint();
 
